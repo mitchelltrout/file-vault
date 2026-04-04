@@ -125,9 +125,7 @@ When locked: the entire window shows only a password input on a black background
 The service is built with separation in mind from day one:
 
 1. **Phase 1 (current):** Service and UI on the same Windows machine. Named pipe IPC is local.
-2. **Phase 2 (homelab):** Service installed on homelab Windows server. UI on a separate machine connects to it via the gRPC interface (same interface used by Android) over Tailscale. Named pipe is replaced with a networked gRPC channel authenticated the same way as Android.
-
-No architectural changes are required for Phase 2 — only configuration.
+2. **Phase 2 (homelab):** Service installed on homelab Windows server. UI on a separate machine connects to it via a networked gRPC channel (the same protocol used by Android) over Tailscale, replacing the local named pipe. The UI will require a transport configuration change for this phase, but the service itself requires no changes.
 
 ---
 
@@ -138,7 +136,7 @@ No architectural changes are required for Phase 2 — only configuration.
 | Windows Service | C# / .NET 8, Windows Service host |
 | Windows UI | C# / WinUI 3 (Windows App SDK) |
 | IPC | Named Pipe (System.IO.Pipes) + MessagePack |
-| Android API | gRPC (google.golang.org/grpc / Grpc.AspNetCore) + TLS |
+| Android API | gRPC (Grpc.AspNetCore on service, grpc-kotlin on Android) + TLS |
 | Encryption | AES-256-GCM via .NET `System.Security.Cryptography` |
 | Key derivation | Argon2id via `Konscious.Security.Cryptography` |
 | Android App | Kotlin, native Android (future) |
