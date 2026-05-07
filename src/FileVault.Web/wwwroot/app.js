@@ -454,6 +454,9 @@ async function importFiles(fileList) {
     await loadFolder(currentPath);
   } catch (e) {
     alert('Import failed: ' + e.message);
+  } finally {
+    const fileInput = document.getElementById('file-input');
+    if (fileInput) fileInput.value = '';
   }
 }
 
