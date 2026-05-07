@@ -51,6 +51,7 @@ All routes under `/api/`. Every request must include the `X-Vault-Token` header 
 
 | Method   | Path                        | Purpose                                      |
 |----------|-----------------------------|----------------------------------------------|
+| `POST`   | `/api/vault/create`         | `{ path, displayName, password }` → creates new vault |
 | `POST`   | `/api/vault/unlock`         | `{ path, password }` → opens session         |
 | `POST`   | `/api/vault/lock`           | Closes session                               |
 | `POST`   | `/api/vault/change-password`| `{ currentPassword, newPassword }`           |
@@ -73,7 +74,10 @@ Single HTML page (`index.html`), plain ES modules — no framework, no build ste
 
 ### Locked State
 
-Centered form: vault path input + password input + Unlock button. Inline error on wrong password.
+Centered form with two modes toggled by tabs or links:
+
+- **Unlock**: vault path input + password input + Unlock button. Inline error on wrong password.
+- **Create**: vault path input + display name input + password input + confirm password input + Create button. On success, immediately unlocks and enters the unlocked state.
 
 ### Unlocked State
 
@@ -116,7 +120,6 @@ The startup token is rendered into `index.html` server-side (injected into a `<m
 
 ## Out of Scope
 
-- Create new vault (not needed; vault already exists)
 - Cover image / disguised vault display (existing feature, not surfaced in web UI)
 - Multi-vault support (one vault per session)
 - Authentication beyond the vault password
