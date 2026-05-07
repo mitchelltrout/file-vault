@@ -149,7 +149,7 @@ public static class FileRoutes
         return Results.Ok();
     }
 
-    private static IResult Export(string vaultPath, string path, VaultManager manager)
+    private static IResult Export(string vaultPath, string path, HttpContext ctx, VaultManager manager)
     {
         if (!manager.TryGetSession(vaultPath, out var session))
             return Results.StatusCode(403);
@@ -158,6 +158,7 @@ public static class FileRoutes
         if (node is null || node.IsDirectory)
             return Results.NotFound();
 
+        ctx.Response.Headers.CacheControl = "no-store";
         // ReadFileOperation acquires session.Lock internally — do NOT acquire it again
         var data = ReadFileOperation.Read(session, path, long.MaxValue);
         return Results.File(data, "application/octet-stream", fileDownloadName: node.Name);
@@ -167,9 +168,16 @@ public static class FileRoutes
     {
         if (!manager.TryGetSession(req.VaultPath, out var session))
             return Results.StatusCode(403);
-        using var lk = session!.Lock.WriteLock();
-        CreateFolderOperation.CreateFolder(session, req.Path);
-        return Results.Ok();
+        try
+        {
+            using var lk = session!.Lock.WriteLock();
+            CreateFolderOperation.CreateFolder(session, req.Path);
+            return Results.Ok();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Results.Conflict(new { error = ex.Message });
+        }
     }
 
     private static IResult Delete(string vaultPath, string path, VaultManager manager)

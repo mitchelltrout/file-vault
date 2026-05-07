@@ -1,9 +1,19 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using FileVault.Service.VaultOperations;
 
-var token = Environment.GetEnvironmentVariable("VAULT_TOKEN")
-    ?? Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+static string SafeToken()
+{
+    var env = Environment.GetEnvironmentVariable("VAULT_TOKEN");
+    // Accept only alphanumeric + hyphen/underscore to prevent JS injection when token is
+    // substituted into index.html as window.VAULT_TOKEN = '<token>';
+    if (!string.IsNullOrEmpty(env) && Regex.IsMatch(env, @"^[A-Za-z0-9_\-]+$"))
+        return env;
+    return Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+}
+
+var token = SafeToken();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("http://127.0.0.1:5000");
