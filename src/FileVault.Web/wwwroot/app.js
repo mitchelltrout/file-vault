@@ -392,5 +392,177 @@ async function buildTreeNode(container, path, depth) {
   } catch { /* ignore tree errors silently */ }
 }
 
+// ── Media viewer overlay ───────────────────────────────
+function openMediaViewer(filePath, isVideo) {
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+
+  function close() {
+    overlay.remove();
+    document.removeEventListener('keydown', onKey);
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+  }
+  document.addEventListener('keydown', onKey);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'overlay-close';
+  closeBtn.textContent = '×';
+  closeBtn.onclick = close;
+  overlay.appendChild(closeBtn);
+
+  if (isVideo) {
+    const video = document.createElement('video');
+    video.src = streamUrl(filePath);
+    video.controls = true;
+    video.autoplay = true;
+    overlay.appendChild(video);
+  } else {
+    const img = document.createElement('img');
+    img.src = streamUrl(filePath);
+    overlay.appendChild(img);
+  }
+
+  overlay.onclick = e => { if (e.target === overlay) close(); };
+  document.body.appendChild(overlay);
+}
+
+// ── Export ─────────────────────────────────────────────
+function exportSelected() {
+  for (const path of selected) exportFile(path, path.split('/').pop());
+}
+
+function exportFile(filePath, filename) {
+  const a = document.createElement('a');
+  a.href = `/api/files/export?vaultPath=${enc(vaultPath)}&path=${enc(filePath)}&token=${enc(TOKEN)}`;
+  a.download = filename;
+  a.click();
+}
+
+// ── Import ─────────────────────────────────────────────
+async function importFiles(fileList) {
+  if (!fileList.length) return;
+  const form = new FormData();
+  form.append('vaultPath', vaultPath);
+  form.append('folder', currentPath);
+  for (const f of fileList) form.append('files', f, f.name);
+
+  try {
+    await api('POST', '/api/files/import', form);
+    await loadFolder(currentPath);
+  } catch (e) {
+    alert('Import failed: ' + e.message);
+  }
+}
+
+// ── Mkdir ──────────────────────────────────────────────
+async function promptMkDir() {
+  const name = await showInputModal('New Folder', 'Folder name', '');
+  if (!name) return;
+  try {
+    await api('POST', '/api/files/mkdir', {
+      vaultPath, path: currentPath.replace(/\/$/, '') + '/' + name
+    });
+    await loadFolder(currentPath);
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+// ── Rename ─────────────────────────────────────────────
+async function promptRename() {
+  const [path] = selected;
+  const oldName = path.split('/').pop();
+  const newName = await showInputModal('Rename', 'New name', oldName);
+  if (!newName || newName === oldName) return;
+  try {
+    await api('POST', '/api/files/rename', { vaultPath, path, newName });
+    await loadFolder(currentPath);
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+// ── Move ───────────────────────────────────────────────
+async function promptMove() {
+  const destFolder = await showInputModal('Move', 'Destination folder path', currentPath);
+  if (!destFolder) return;
+  for (const sourcePath of selected) {
+    try {
+      await api('POST', '/api/files/move', { vaultPath, sourcePath, destFolder });
+    } catch (e) {
+      alert(`Error moving ${sourcePath.split('/').pop()}: ${e.message}`);
+    }
+  }
+  await loadFolder(currentPath);
+}
+
+// ── Delete ─────────────────────────────────────────────
+async function confirmDelete() {
+  const names = [...selected].map(p => p.split('/').pop()).join(', ');
+  if (!confirm(`Delete ${names}?`)) return;
+  for (const path of selected) {
+    try {
+      await api('DELETE', `/api/files?vaultPath=${enc(vaultPath)}&path=${enc(path)}`);
+    } catch (e) {
+      alert(`Error deleting ${path.split('/').pop()}: ${e.message}`);
+    }
+  }
+  await loadFolder(currentPath);
+}
+
+// ── Input modal helper ─────────────────────────────────
+function showInputModal(title, label, defaultValue) {
+  return new Promise(resolve => {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop';
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = title;
+    modal.appendChild(h3);
+
+    const fieldDiv = document.createElement('div');
+    fieldDiv.className = 'field';
+    const lbl = document.createElement('label');
+    lbl.textContent = label;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = defaultValue;
+    fieldDiv.appendChild(lbl);
+    fieldDiv.appendChild(input);
+    modal.appendChild(fieldDiv);
+
+    const actions = document.createElement('div');
+    actions.className = 'modal-actions';
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'btn btn-secondary';
+    cancelBtn.textContent = 'Cancel';
+    const okBtn = document.createElement('button');
+    okBtn.className = 'btn btn-primary';
+    okBtn.textContent = 'OK';
+    actions.appendChild(cancelBtn);
+    actions.appendChild(okBtn);
+    modal.appendChild(actions);
+
+    backdrop.appendChild(modal);
+    document.body.appendChild(backdrop);
+
+    input.focus();
+    input.select();
+
+    const done = val => { backdrop.remove(); resolve(val); };
+    cancelBtn.onclick = () => done(null);
+    okBtn.onclick = () => done(input.value.trim() || null);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') done(input.value.trim() || null);
+      if (e.key === 'Escape') done(null);
+    });
+  });
+}
+
 // ── Init ───────────────────────────────────────────────
 renderLocked();
