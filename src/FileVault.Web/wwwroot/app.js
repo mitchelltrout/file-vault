@@ -236,7 +236,7 @@ async function loadFolder(path) {
     items.forEach(item => grid.appendChild(renderFileItem(item, path)));
 
     // Refresh folder tree
-    await renderFolderTree('/');
+    await renderFolderTree();
   } catch (e) {
     grid.innerHTML = `<span class="error"></span>`;
     grid.querySelector('.error').textContent = e.message;
@@ -324,7 +324,7 @@ function updateToolbarButtons() {
   const renameBtn = document.getElementById('btn-rename');
   const moveBtn = document.getElementById('btn-move');
   const deleteBtn = document.getElementById('btn-delete');
-  if (!exportBtn) return;
+  if (!exportBtn || !renameBtn || !moveBtn || !deleteBtn) return;
   exportBtn.disabled = count === 0;
   renameBtn.disabled = count !== 1;
   moveBtn.disabled = count === 0;
@@ -359,14 +359,17 @@ function renderBreadcrumb(path) {
   });
 }
 
-async function renderFolderTree(path) {
+async function renderFolderTree() {
   const tree = document.getElementById('folder-tree');
   if (!tree) return;
   tree.innerHTML = '';
   await buildTreeNode(tree, '/', 0);
 }
 
+const TREE_MAX_DEPTH = 4;
+
 async function buildTreeNode(container, path, depth) {
+  if (depth >= TREE_MAX_DEPTH) return;
   try {
     const items = await api('GET',
       `/api/files/list?vaultPath=${enc(vaultPath)}&path=${enc(path)}`);
