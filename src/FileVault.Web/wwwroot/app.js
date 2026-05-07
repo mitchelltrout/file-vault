@@ -76,7 +76,7 @@ function renderLocked() {
 }
 
 function buildUnlockForm(card, errorEl) {
-  const pathField = field('Vault path', 'text', '/home/user/Documents/MyVault.vault');
+  const pathField = fieldWithBrowse('Vault path', 'open', '/home/user/Documents/MyVault.vault');
   const passField = field('Password', 'password', '');
   const btn = document.createElement('button');
   btn.className = 'btn btn-primary';
@@ -105,7 +105,7 @@ function buildUnlockForm(card, errorEl) {
 }
 
 function buildCreateForm(card, errorEl) {
-  const pathField = field('Vault path', 'text', '/home/user/Documents/NewVault.vault');
+  const pathField = fieldWithBrowse('Vault path', 'save', '/home/user/Documents/NewVault.vault');
   const nameField = field('Display name', 'text', '');
   const passField = field('Password', 'password', '');
   const confirmField = field('Confirm password', 'password', '');
@@ -150,6 +150,33 @@ function field(labelText, type, placeholder) {
   input.placeholder = placeholder;
   el.appendChild(lbl);
   el.appendChild(input);
+  return { el, input };
+}
+
+function fieldWithBrowse(labelText, mode, placeholder) {
+  const el = document.createElement('div');
+  el.className = 'field';
+  const lbl = document.createElement('label');
+  lbl.textContent = labelText;
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:0.5rem;align-items:center';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = placeholder;
+  input.style.cssText = 'flex:1;min-width:0';
+  const browseBtn = document.createElement('button');
+  browseBtn.type = 'button';
+  browseBtn.className = 'btn btn-secondary';
+  browseBtn.textContent = '📂';
+  browseBtn.title = 'Browse…';
+  browseBtn.onclick = async () => {
+    const chosen = await showFsBrowserModal(mode, input.value);
+    if (chosen) input.value = chosen;
+  };
+  row.appendChild(input);
+  row.appendChild(browseBtn);
+  el.appendChild(lbl);
+  el.appendChild(row);
   return { el, input };
 }
 
@@ -564,6 +591,164 @@ function showInputModal(title, label, defaultValue) {
       if (e.key === 'Enter') done(input.value.trim() || null);
       if (e.key === 'Escape') done(null);
     });
+  });
+}
+
+// ── Filesystem browser modal ───────────────────────────
+// mode 'open'  → user picks an existing .vault file; resolves full path string or null
+// mode 'save'  → user picks a directory + types filename; resolves full path string or null
+function showFsBrowserModal(mode, initialPath) {
+  return new Promise(resolve => {
+    // Derive starting directory from the current input value
+    let startDir = '';
+    if (initialPath) {
+      const lastSlash = initialPath.lastIndexOf('/');
+      startDir = lastSlash > 0 ? initialPath.substring(0, lastSlash) : initialPath;
+    }
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop';
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.width = '480px';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = mode === 'open' ? 'Select Vault File' : 'Select Destination Folder';
+    modal.appendChild(h3);
+
+    const pathDisplay = document.createElement('div');
+    pathDisplay.className = 'fs-browser-path';
+    modal.appendChild(pathDisplay);
+
+    const listEl = document.createElement('div');
+    listEl.className = 'fs-list';
+    modal.appendChild(listEl);
+
+    // 'save' mode: filename input
+    let filenameInput = null;
+    if (mode === 'save') {
+      const fnField = document.createElement('div');
+      fnField.className = 'field';
+      const fnLbl = document.createElement('label');
+      fnLbl.textContent = 'File name';
+      filenameInput = document.createElement('input');
+      filenameInput.type = 'text';
+      filenameInput.placeholder = 'MyVault.vault';
+      fnField.appendChild(fnLbl);
+      fnField.appendChild(filenameInput);
+      modal.appendChild(fnField);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'modal-actions';
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'btn btn-secondary';
+    cancelBtn.textContent = 'Cancel';
+    const okBtn = document.createElement('button');
+    okBtn.className = 'btn btn-primary';
+    okBtn.textContent = mode === 'open' ? 'Open' : 'Select';
+    okBtn.disabled = true;
+    actions.appendChild(cancelBtn);
+    actions.appendChild(okBtn);
+    modal.appendChild(actions);
+
+    backdrop.appendChild(modal);
+    document.body.appendChild(backdrop);
+
+    let currentDirPath = '';
+    let selectedFile = null;
+
+    const done = val => { backdrop.remove(); resolve(val); };
+    cancelBtn.onclick = () => done(null);
+
+    okBtn.onclick = () => {
+      if (mode === 'open' && selectedFile) {
+        done(currentDirPath.replace(/\/$/, '') + '/' + selectedFile);
+      } else if (mode === 'save' && filenameInput) {
+        const name = filenameInput.value.trim();
+        if (name) done(currentDirPath.replace(/\/$/, '') + '/' + name);
+      }
+    };
+
+    if (filenameInput) {
+      filenameInput.addEventListener('input', () => {
+        okBtn.disabled = !filenameInput.value.trim();
+      });
+      filenameInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && filenameInput.value.trim()) okBtn.click();
+        if (e.key === 'Escape') done(null);
+      });
+    }
+
+    async function navigate(dir) {
+      currentDirPath = dir;
+      selectedFile = null;
+      if (mode === 'open') okBtn.disabled = true;
+
+      listEl.innerHTML = '';
+      const loading = document.createElement('div');
+      loading.className = 'fs-list-empty';
+      loading.textContent = 'Loading…';
+      listEl.appendChild(loading);
+
+      try {
+        const data = await api('GET', `/api/fs/list?path=${enc(dir)}`);
+        currentDirPath = data.path;
+        pathDisplay.textContent = data.path;
+        listEl.innerHTML = '';
+
+        if (data.parent) {
+          const item = document.createElement('div');
+          item.className = 'fs-list-item';
+          item.appendChild(document.createTextNode('📁 ..'));
+          item.onclick = () => navigate(data.parent);
+          listEl.appendChild(item);
+        }
+
+        for (const dirName of data.dirs) {
+          const item = document.createElement('div');
+          item.className = 'fs-list-item';
+          item.appendChild(document.createTextNode('📁 ' + dirName));
+          const target = data.path.replace(/\/$/, '') + '/' + dirName;
+          item.onclick = () => navigate(target);
+          listEl.appendChild(item);
+        }
+
+        if (mode === 'open') {
+          for (const fileName of data.vaultFiles) {
+            const item = document.createElement('div');
+            item.className = 'fs-list-item';
+            item.appendChild(document.createTextNode('🔒 ' + fileName));
+            item.onclick = () => {
+              listEl.querySelectorAll('.selected').forEach(i => i.classList.remove('selected'));
+              item.classList.add('selected');
+              selectedFile = fileName;
+              okBtn.disabled = false;
+            };
+            item.ondblclick = () => done(data.path.replace(/\/$/, '') + '/' + fileName);
+            listEl.appendChild(item);
+          }
+        }
+
+        if (listEl.children.length === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'fs-list-empty';
+          empty.textContent = mode === 'open' ? 'No .vault files found here.' : 'Empty directory.';
+          listEl.appendChild(empty);
+        }
+
+        if (mode === 'save' && filenameInput) filenameInput.focus();
+      } catch (e) {
+        listEl.innerHTML = '';
+        const err = document.createElement('div');
+        err.className = 'fs-list-empty';
+        err.style.color = '#f87171';
+        err.textContent = e.message;
+        listEl.appendChild(err);
+      }
+    }
+
+    navigate(startDir);
   });
 }
 

@@ -52,6 +52,7 @@ app.MapGet("/", async (HttpContext ctx) =>
 
 app.MapVaultRoutes();
 app.MapFileRoutes();
+app.MapFsRoutes();
 
 if (!app.Environment.IsEnvironment("Testing"))
 {
