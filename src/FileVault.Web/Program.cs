@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using System.Text;
 using FileVault.Service.VaultOperations;
 
 var token = Environment.GetEnvironmentVariable("VAULT_TOKEN")
@@ -14,9 +15,12 @@ app.Use(async (ctx, next) =>
 {
     if (ctx.Request.Path.StartsWithSegments("/api"))
     {
-        var headerToken = ctx.Request.Headers["X-Vault-Token"].FirstOrDefault();
-        var queryToken = ctx.Request.Query["token"].FirstOrDefault();
-        if (headerToken != token && queryToken != token)
+        var headerToken = ctx.Request.Headers["X-Vault-Token"].FirstOrDefault() ?? "";
+        var queryToken = ctx.Request.Query["token"].FirstOrDefault() ?? "";
+        var tokenBytes = Encoding.UTF8.GetBytes(token);
+        var headerOk = CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(headerToken), tokenBytes);
+        var queryOk = CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(queryToken), tokenBytes);
+        if (!headerOk && !queryOk)
         {
             ctx.Response.StatusCode = 401;
             return;
