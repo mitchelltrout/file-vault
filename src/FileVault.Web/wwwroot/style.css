@@ -207,6 +207,24 @@ input[type=text]:focus, input[type=password]:focus {
 .modal h3 { font-size: 1rem; }
 .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
 
+/* ── Recent vaults ── */
+.recents-section { display: flex; flex-direction: column; gap: 0.4rem; }
+.recents-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.05em; }
+.recents-list { display: flex; flex-direction: column; gap: 2px; }
+.recents-item {
+  display: flex; align-items: stretch;
+  border: 1px solid #0f3460; border-radius: 4px; overflow: hidden;
+}
+.recents-info { flex: 1; padding: 0.4rem 0.6rem; cursor: pointer; min-width: 0; }
+.recents-info:hover { background: #0f3460; }
+.recents-name { font-size: 0.85rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.recents-path { font-size: 0.72rem; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.recents-remove {
+  padding: 0 0.6rem; background: none; border: none; border-left: 1px solid #0f3460;
+  color: #555; cursor: pointer; font-size: 1rem; display: flex; align-items: center;
+}
+.recents-remove:hover { color: #f87171; background: #0f3460; }
+
 /* ── Filesystem browser ── */
 .fs-browser-path {
   font-size: 0.8rem;

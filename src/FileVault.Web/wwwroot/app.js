@@ -23,6 +23,80 @@ async function api(method, url, body) {
   return res;
 }
 
+// ── Recent vaults (localStorage) ──────────────────────
+const RECENTS_KEY = 'filevault_recents';
+const RECENTS_MAX = 5;
+
+function loadRecents() {
+  try { return JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function addRecent(path, displayName) {
+  const list = loadRecents().filter(r => r.path !== path);
+  list.unshift({ path, displayName });
+  localStorage.setItem(RECENTS_KEY, JSON.stringify(list.slice(0, RECENTS_MAX)));
+}
+
+function removeRecent(path) {
+  const list = loadRecents().filter(r => r.path !== path);
+  localStorage.setItem(RECENTS_KEY, JSON.stringify(list));
+}
+
+function buildRecentsSection(pathInput, passInput) {
+  const recents = loadRecents();
+  if (recents.length === 0) return null;
+
+  const section = document.createElement('div');
+  section.className = 'recents-section';
+
+  const lbl = document.createElement('div');
+  lbl.className = 'recents-label';
+  lbl.textContent = 'Recent vaults';
+  section.appendChild(lbl);
+
+  const list = document.createElement('div');
+  list.className = 'recents-list';
+
+  for (const r of recents) {
+    const item = document.createElement('div');
+    item.className = 'recents-item';
+
+    const info = document.createElement('div');
+    info.className = 'recents-info';
+    info.onclick = () => { pathInput.value = r.path; passInput.focus(); };
+
+    const name = document.createElement('div');
+    name.className = 'recents-name';
+    name.textContent = r.displayName;
+
+    const pathEl = document.createElement('div');
+    pathEl.className = 'recents-path';
+    pathEl.textContent = r.path;
+
+    info.appendChild(name);
+    info.appendChild(pathEl);
+
+    const rmBtn = document.createElement('button');
+    rmBtn.className = 'recents-remove';
+    rmBtn.textContent = '×';
+    rmBtn.title = 'Remove from recents';
+    rmBtn.onclick = e => {
+      e.stopPropagation();
+      removeRecent(r.path);
+      item.remove();
+      if (list.children.length === 0) section.remove();
+    };
+
+    item.appendChild(info);
+    item.appendChild(rmBtn);
+    list.appendChild(item);
+  }
+
+  section.appendChild(list);
+  return section;
+}
+
 // ── Stream URL (uses ?token= for <img>/<video> src) ────
 function streamUrl(filePath) {
   return `/api/files/stream?vaultPath=${enc(vaultPath)}&path=${enc(filePath)}&token=${enc(TOKEN)}`;
@@ -82,6 +156,8 @@ function buildUnlockForm(card, errorEl) {
   btn.className = 'btn btn-primary';
   btn.textContent = 'Unlock';
 
+  const recentsSection = buildRecentsSection(pathField.input, passField.input);
+  if (recentsSection) card.appendChild(recentsSection);
   [pathField.el, passField.el, errorEl, btn].forEach(e => card.appendChild(e));
 
   const submitOnEnter = e => { if (e.key === 'Enter') btn.click(); };
@@ -93,6 +169,7 @@ function buildUnlockForm(card, errorEl) {
     try {
       const data = await api('POST', '/api/vault/unlock',
         { path: pathField.input.value, password: passField.input.value });
+      addRecent(pathField.input.value, data.displayName);
       vaultPath = pathField.input.value;
       currentPath = '/';
       renderUnlocked(data.displayName);
@@ -129,6 +206,7 @@ function buildCreateForm(card, errorEl) {
         displayName: nameField.input.value,
         password: passField.input.value,
       });
+      addRecent(pathField.input.value, data.displayName);
       vaultPath = pathField.input.value;
       currentPath = '/';
       renderUnlocked(data.displayName);
