@@ -106,4 +106,91 @@ public class FileRouteTests : IAsyncLifetime
         Assert.True(res.Headers.TryGetValues("Cache-Control", out var vals)
             && vals.Any(v => v.Contains("no-store")));
     }
+
+    [Fact]
+    public async Task Import_File_AppearsInList()
+    {
+        var content = "imported content"u8.ToArray();
+        using var form = new MultipartFormDataContent();
+        form.Add(new StringContent(_vaultPath), "vaultPath");
+        form.Add(new StringContent("/"), "folder");
+        form.Add(new ByteArrayContent(content)
+        {
+            Headers = { ContentDisposition = new("form-data")
+                { Name = "\"files\"", FileName = "\"imported.txt\"" } }
+        }, "files", "imported.txt");
+
+        var res = await _client.PostAsync("/api/files/import", form);
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+        var listRes = await _client.GetAsync($"/api/files/list?vaultPath={V}&path=/");
+        var body = await listRes.Content.ReadFromJsonAsync<List<Dictionary<string, object>>>();
+        Assert.Contains(body!, f => f["name"].ToString() == "imported.txt");
+    }
+
+    [Fact]
+    public async Task Export_ExistingFile_ReturnsBytes()
+    {
+        var path = Uri.EscapeDataString("/filevault_test_hello.txt");
+        var res = await _client.GetAsync($"/api/files/export?vaultPath={V}&path={path}");
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+        Assert.Equal("attachment", res.Content.Headers.ContentDisposition?.DispositionType);
+        var bytes = await res.Content.ReadAsByteArrayAsync();
+        Assert.Equal("hello world"u8.ToArray(), bytes);
+    }
+
+    [Fact]
+    public async Task MkDir_CreatesFolder_AppearsInList()
+    {
+        var res = await _client.PostAsJsonAsync("/api/files/mkdir",
+            new { vaultPath = _vaultPath, path = "/testfolder" });
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+        var listRes = await _client.GetAsync($"/api/files/list?vaultPath={V}&path=/");
+        var body = await listRes.Content.ReadFromJsonAsync<List<Dictionary<string, object>>>();
+        Assert.Contains(body!, f => f["name"].ToString() == "testfolder");
+    }
+
+    [Fact]
+    public async Task Delete_ExistingFile_RemovedFromList()
+    {
+        var path = Uri.EscapeDataString("/filevault_test_hello.txt");
+        var res = await _client.DeleteAsync($"/api/files?vaultPath={V}&path={path}");
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+        var listRes = await _client.GetAsync($"/api/files/list?vaultPath={V}&path=/");
+        var body = await listRes.Content.ReadFromJsonAsync<List<Dictionary<string, object>>>();
+        Assert.DoesNotContain(body!, f => f["name"].ToString() == "filevault_test_hello.txt");
+    }
+
+    [Fact]
+    public async Task Rename_ExistingFile_NewNameAppearsInList()
+    {
+        var res = await _client.PostAsJsonAsync("/api/files/rename",
+            new { vaultPath = _vaultPath, path = "/filevault_test_hello.txt", newName = "renamed.txt" });
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+        var listRes = await _client.GetAsync($"/api/files/list?vaultPath={V}&path=/");
+        var body = await listRes.Content.ReadFromJsonAsync<List<Dictionary<string, object>>>();
+        Assert.Contains(body!, f => f["name"].ToString() == "renamed.txt");
+        Assert.DoesNotContain(body!, f => f["name"].ToString() == "filevault_test_hello.txt");
+    }
+
+    [Fact]
+    public async Task Move_FileToSubfolder_AppearsInDestination()
+    {
+        // Create a subfolder first
+        await _client.PostAsJsonAsync("/api/files/mkdir",
+            new { vaultPath = _vaultPath, path = "/moveto" });
+
+        var res = await _client.PostAsJsonAsync("/api/files/move",
+            new { vaultPath = _vaultPath, sourcePath = "/filevault_test_hello.txt",
+                  destFolder = "/moveto" });
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+        var listRes = await _client.GetAsync(
+            $"/api/files/list?vaultPath={V}&path={Uri.EscapeDataString("/moveto")}");
+        var body = await listRes.Content.ReadFromJsonAsync<List<Dictionary<string, object>>>();
+        Assert.Contains(body!, f => f["name"].ToString() == "filevault_test_hello.txt");
+    }
 }
