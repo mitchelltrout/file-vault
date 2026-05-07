@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FileVault.Web.Tests;
 
+[Collection("WebApi")]
 public class FileRouteTests : IAsyncLifetime
 {
     private readonly WebApplicationFactory<Program> _factory;
