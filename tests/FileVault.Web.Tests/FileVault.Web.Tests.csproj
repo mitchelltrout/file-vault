@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\FileVault.Web\FileVault.Web.csproj" />
   </ItemGroup>
 
