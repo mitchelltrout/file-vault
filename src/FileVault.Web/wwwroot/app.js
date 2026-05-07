@@ -76,7 +76,7 @@ function renderLocked() {
 }
 
 function buildUnlockForm(card, errorEl) {
-  const pathField = field('Vault path', 'text', '~/Documents/MyVault.vault');
+  const pathField = field('Vault path', 'text', '/home/user/Documents/MyVault.vault');
   const passField = field('Password', 'password', '');
   const btn = document.createElement('button');
   btn.className = 'btn btn-primary';
@@ -84,7 +84,9 @@ function buildUnlockForm(card, errorEl) {
 
   [pathField.el, passField.el, errorEl, btn].forEach(e => card.appendChild(e));
 
-  passField.input.addEventListener('keydown', e => { if (e.key === 'Enter') btn.click(); });
+  const submitOnEnter = e => { if (e.key === 'Enter') btn.click(); };
+  pathField.input.addEventListener('keydown', submitOnEnter);
+  passField.input.addEventListener('keydown', submitOnEnter);
   btn.onclick = async () => {
     errorEl.textContent = '';
     btn.disabled = true;
@@ -103,7 +105,7 @@ function buildUnlockForm(card, errorEl) {
 }
 
 function buildCreateForm(card, errorEl) {
-  const pathField = field('Vault path', 'text', '~/Documents/NewVault.vault');
+  const pathField = field('Vault path', 'text', '/home/user/Documents/NewVault.vault');
   const nameField = field('Display name', 'text', '');
   const passField = field('Password', 'password', '');
   const confirmField = field('Confirm password', 'password', '');
@@ -155,7 +157,10 @@ function field(labelText, type, placeholder) {
 function renderUnlocked(displayName) {
   const layout = document.createElement('div');
   layout.className = 'app-layout';
-  layout.innerHTML = `<p style="padding:2rem;color:#999">Vault unlocked: ${displayName} — UI coming soon</p>`;
+  const p = document.createElement('p');
+  p.style.cssText = 'padding:2rem;color:#999';
+  p.textContent = `Vault unlocked: ${displayName} — UI coming soon`;
+  layout.appendChild(p);
   render(layout);
 }
 
