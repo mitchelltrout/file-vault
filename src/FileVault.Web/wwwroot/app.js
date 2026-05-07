@@ -153,15 +153,240 @@ function field(labelText, type, placeholder) {
   return { el, input };
 }
 
-// ── Unlocked state (stub — expanded in Tasks 6–7) ──────
-function renderUnlocked(displayName) {
+// ── Unlocked state ─────────────────────────────────────
+async function renderUnlocked(displayName) {
+  selected.clear();
+
   const layout = document.createElement('div');
   layout.className = 'app-layout';
-  const p = document.createElement('p');
-  p.style.cssText = 'padding:2rem;color:#999';
-  p.textContent = `Vault unlocked: ${displayName} — UI coming soon`;
-  layout.appendChild(p);
+
+  // Sidebar
+  const sidebar = document.createElement('div');
+  sidebar.className = 'sidebar';
+  sidebar.innerHTML = `
+    <div class="sidebar-header">
+      <h2></h2>
+      <button class="btn btn-secondary" id="btn-lock" title="Lock vault">🔒</button>
+    </div>
+    <div class="folder-tree" id="folder-tree"></div>
+  `;
+  sidebar.querySelector('h2').textContent = displayName;
+
+  // Main area
+  const main = document.createElement('div');
+  main.className = 'main';
+  main.innerHTML = `
+    <div class="toolbar">
+      <div class="breadcrumb" id="breadcrumb"></div>
+      <button class="btn btn-secondary" id="btn-import">⬆ Import</button>
+      <button class="btn btn-secondary" id="btn-mkdir">📁 New Folder</button>
+      <button class="btn btn-secondary" id="btn-export" disabled>⬇ Export</button>
+      <button class="btn btn-secondary" id="btn-rename" disabled>✏ Rename</button>
+      <button class="btn btn-secondary" id="btn-move" disabled>📦 Move</button>
+      <button class="btn btn-danger" id="btn-delete" disabled>🗑 Delete</button>
+    </div>
+    <div class="file-grid" id="file-grid"></div>
+    <input type="file" id="file-input" multiple style="display:none" />
+  `;
+
+  layout.appendChild(sidebar);
+  layout.appendChild(main);
   render(layout);
+
+  // Wire toolbar buttons
+  document.getElementById('btn-lock').onclick = async () => {
+    await api('POST', '/api/vault/lock', { path: vaultPath });
+    vaultPath = '';
+    renderLocked();
+  };
+
+  document.getElementById('btn-import').onclick = () =>
+    document.getElementById('file-input').click();
+  document.getElementById('file-input').onchange = e => importFiles(e.target.files);
+
+  document.getElementById('btn-mkdir').onclick = () => promptMkDir();
+  document.getElementById('btn-export').onclick = () => exportSelected();
+  document.getElementById('btn-rename').onclick = () => promptRename();
+  document.getElementById('btn-move').onclick = () => promptMove();
+  document.getElementById('btn-delete').onclick = () => confirmDelete();
+
+  await loadFolder(currentPath);
+}
+
+async function loadFolder(path) {
+  currentPath = path;
+  selected.clear();
+  updateToolbarButtons();
+  renderBreadcrumb(path);
+
+  const grid = document.getElementById('file-grid');
+  grid.innerHTML = '<span style="color:#666;padding:.5rem">Loading…</span>';
+
+  try {
+    const items = await api('GET',
+      `/api/files/list?vaultPath=${enc(vaultPath)}&path=${enc(path)}`);
+    grid.innerHTML = '';
+
+    // Sort: folders first, then files, both alphabetically
+    items.sort((a, b) => {
+      if (a.isDirectory !== b.isDirectory) return a.isDirectory ? -1 : 1;
+      return a.name.localeCompare(b.name);
+    });
+
+    items.forEach(item => grid.appendChild(renderFileItem(item, path)));
+
+    // Refresh folder tree
+    await renderFolderTree('/');
+  } catch (e) {
+    grid.innerHTML = `<span class="error"></span>`;
+    grid.querySelector('.error').textContent = e.message;
+  }
+}
+
+function renderFileItem(item, parentPath) {
+  const fullPath = parentPath.replace(/\/$/, '') + '/' + item.name;
+  const el = document.createElement('div');
+  el.className = 'file-item';
+  el.dataset.path = fullPath;
+
+  if (item.isDirectory) {
+    const icon = document.createElement('div');
+    icon.className = 'file-icon';
+    icon.textContent = '📁';
+    const name = document.createElement('div');
+    name.className = 'file-name';
+    name.textContent = item.name;
+    el.appendChild(icon);
+    el.appendChild(name);
+    el.ondblclick = () => loadFolder(fullPath);
+    el.onclick = e => toggleSelect(el, fullPath, e);
+  } else {
+    const ext = item.name.split('.').pop().toLowerCase();
+    const isImage = ['jpg','jpeg','png','gif','webp'].includes(ext);
+    const isVideo = ['mp4','webm','mov','mkv'].includes(ext);
+
+    if (isImage) {
+      const thumb = document.createElement('img');
+      thumb.className = 'file-thumb';
+      thumb.src = streamUrl(fullPath);
+      thumb.loading = 'lazy';
+      thumb.alt = item.name;
+      const name = document.createElement('div');
+      name.className = 'file-name';
+      name.textContent = item.name;
+      el.appendChild(thumb);
+      el.appendChild(name);
+    } else {
+      const icon = document.createElement('div');
+      icon.className = 'file-icon';
+      icon.textContent = isVideo ? '🎬' : fileIcon(ext);
+      const name = document.createElement('div');
+      name.className = 'file-name';
+      name.textContent = item.name;
+      el.appendChild(icon);
+      el.appendChild(name);
+    }
+
+    el.onclick = e => toggleSelect(el, fullPath, e);
+    el.ondblclick = () => {
+      if (isImage || isVideo) openMediaViewer(fullPath, isVideo);
+      else exportFile(fullPath, item.name);
+    };
+  }
+
+  return el;
+}
+
+function fileIcon(ext) {
+  const map = {
+    pdf: '📄', doc: '📝', docx: '📝', txt: '📝', mp3: '🎵', wav: '🎵',
+    zip: '🗜', rar: '🗜', '7z': '🗜', xls: '📊', xlsx: '📊', ppt: '📊',
+  };
+  return map[ext] ?? '📎';
+}
+
+function toggleSelect(el, path, e) {
+  if (e.shiftKey || e.ctrlKey || e.metaKey) {
+    if (selected.has(path)) { selected.delete(path); el.classList.remove('selected'); }
+    else { selected.add(path); el.classList.add('selected'); }
+  } else {
+    document.querySelectorAll('.file-item.selected').forEach(i => i.classList.remove('selected'));
+    selected.clear();
+    selected.add(path);
+    el.classList.add('selected');
+  }
+  updateToolbarButtons();
+}
+
+function updateToolbarButtons() {
+  const count = selected.size;
+  const exportBtn = document.getElementById('btn-export');
+  const renameBtn = document.getElementById('btn-rename');
+  const moveBtn = document.getElementById('btn-move');
+  const deleteBtn = document.getElementById('btn-delete');
+  if (!exportBtn) return;
+  exportBtn.disabled = count === 0;
+  renameBtn.disabled = count !== 1;
+  moveBtn.disabled = count === 0;
+  deleteBtn.disabled = count === 0;
+}
+
+function renderBreadcrumb(path) {
+  const bc = document.getElementById('breadcrumb');
+  if (!bc) return;
+  const parts = path.split('/').filter(Boolean);
+  bc.innerHTML = '';
+
+  const rootSpan = document.createElement('span');
+  rootSpan.textContent = '🏠 /';
+  rootSpan.onclick = () => loadFolder('/');
+  bc.appendChild(rootSpan);
+
+  let accumulated = '';
+  parts.forEach((part, i) => {
+    accumulated += '/' + part;
+    const sep = document.createTextNode(' › ');
+    bc.appendChild(sep);
+    if (i < parts.length - 1) {
+      const span = document.createElement('span');
+      span.textContent = part;
+      const cap = accumulated;
+      span.onclick = () => loadFolder(cap);
+      bc.appendChild(span);
+    } else {
+      bc.appendChild(document.createTextNode(part));
+    }
+  });
+}
+
+async function renderFolderTree(path) {
+  const tree = document.getElementById('folder-tree');
+  if (!tree) return;
+  tree.innerHTML = '';
+  await buildTreeNode(tree, '/', 0);
+}
+
+async function buildTreeNode(container, path, depth) {
+  try {
+    const items = await api('GET',
+      `/api/files/list?vaultPath=${enc(vaultPath)}&path=${enc(path)}`);
+    const folders = items.filter(i => i.isDirectory);
+
+    for (const f of folders) {
+      const fullPath = path.replace(/\/$/, '') + '/' + f.name;
+      const item = document.createElement('div');
+      item.className = 'tree-item' + (currentPath === fullPath ? ' active' : '');
+      item.style.paddingLeft = `${1 + depth * 1}rem`;
+      const icon = document.createElement('span');
+      icon.className = 'tree-icon';
+      icon.textContent = '📁';
+      item.appendChild(icon);
+      item.appendChild(document.createTextNode(' ' + f.name));
+      item.onclick = () => loadFolder(fullPath);
+      container.appendChild(item);
+      await buildTreeNode(container, fullPath, depth + 1);
+    }
+  } catch { /* ignore tree errors silently */ }
 }
 
 // ── Init ───────────────────────────────────────────────
