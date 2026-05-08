@@ -399,8 +399,10 @@ function renderFileItem(item, parentPath) {
       let stillPos = 0;
 
       video.addEventListener('loadedmetadata', () => {
-        stillPos = Math.min(5, video.duration * 0.1);
-        video.currentTime = stillPos;
+        if (['mp4', 'webm'].includes(ext)) {
+          stillPos = Math.min(5, video.duration * 0.1);
+          video.currentTime = stillPos;
+        }
       });
 
       wrapper.addEventListener('mouseenter', () => {
