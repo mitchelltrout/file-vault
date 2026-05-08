@@ -330,6 +330,7 @@ async function loadFolder(path) {
   try {
     const items = await api('GET',
       `/api/files/list?vaultPath=${enc(vaultPath)}&path=${enc(path)}`);
+    grid.querySelectorAll('video').forEach(v => { v.pause(); v.removeAttribute('src'); v.load(); });
     grid.innerHTML = '';
 
     // Sort: folders first, then files, both alphabetically
@@ -404,7 +405,7 @@ function renderFileItem(item, parentPath) {
 
       wrapper.addEventListener('mouseenter', () => {
         video.currentTime = 0;
-        video.play();
+        video.play().catch(() => {});
         overlay.style.opacity = '0';
       });
 
