@@ -381,10 +381,58 @@ function renderFileItem(item, parentPath) {
       name.textContent = item.name;
       el.appendChild(thumb);
       el.appendChild(name);
+    } else if (isVideo) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'video-thumb-wrapper';
+
+      const video = document.createElement('video');
+      video.muted = true;
+      video.loop = true;
+      video.preload = 'metadata';
+      video.src = streamUrl(fullPath);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'video-play-overlay';
+      overlay.textContent = '▶';
+
+      let stillPos = 0;
+
+      video.addEventListener('loadedmetadata', () => {
+        stillPos = Math.min(5, video.duration * 0.1);
+        video.currentTime = stillPos;
+      });
+
+      wrapper.addEventListener('mouseenter', () => {
+        video.currentTime = 0;
+        video.play();
+        overlay.style.opacity = '0';
+      });
+
+      wrapper.addEventListener('mouseleave', () => {
+        video.pause();
+        video.currentTime = stillPos;
+        overlay.style.opacity = '1';
+      });
+
+      video.addEventListener('error', () => {
+        const icon = document.createElement('div');
+        icon.className = 'file-icon';
+        icon.textContent = '🎬';
+        wrapper.replaceWith(icon);
+      });
+
+      wrapper.appendChild(video);
+      wrapper.appendChild(overlay);
+
+      const name = document.createElement('div');
+      name.className = 'file-name';
+      name.textContent = item.name;
+      el.appendChild(wrapper);
+      el.appendChild(name);
     } else {
       const icon = document.createElement('div');
       icon.className = 'file-icon';
-      icon.textContent = isVideo ? '🎬' : fileIcon(ext);
+      icon.textContent = fileIcon(ext);
       const name = document.createElement('div');
       name.className = 'file-name';
       name.textContent = item.name;
