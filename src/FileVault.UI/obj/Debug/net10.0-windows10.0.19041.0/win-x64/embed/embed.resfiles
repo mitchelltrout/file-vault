@@ -1,0 +1,14 @@
+App.xbf
+Dialogs\ChangePasswordDialog.xbf
+Dialogs\CollisionResolutionDialog.xbf
+Dialogs\CreateVaultDialog.xbf
+Dialogs\DeleteConfirmDialog.xbf
+Dialogs\PasswordGeneratorControl.xbf
+MainWindow.xbf
+Views\ContentArea.xbf
+Views\FolderPanel.xbf
+Views\FullscreenViewer.xbf
+Views\GridFileItem.xbf
+Views\ListFileItem.xbf
+Views\LockScreen.xbf
+Views\VaultIconRail.xbf

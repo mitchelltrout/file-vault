@@ -1,0 +1,26 @@
+<UserControl x:Class="FileVault.UI.Views.LockScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#000000">
+  <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="280">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="12"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="8"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <TextBlock Grid.Row="0" x:Name="VaultPathText"
+               Foreground="#555555" FontSize="11" HorizontalAlignment="Center"
+               TextTrimming="CharacterEllipsis"/>
+
+    <PasswordBox Grid.Row="2" x:Name="PasswordInput"
+                 Background="#0a0a0a" Foreground="#cccccc"
+                 KeyDown="PasswordInput_KeyDown"/>
+
+    <TextBlock Grid.Row="4" x:Name="ErrorText"
+               Foreground="#cc4444" FontSize="11"
+               Visibility="Collapsed"/>
+  </Grid>
+</UserControl>

@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>false</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="FluentAssertions" Version="7.2.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="LibVLCSharp" Version="3.9.3" />
+    <PackageReference Include="MessagePack" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FileVault.Shared\FileVault.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\FileVault.UI\Ipc\IServiceClient.cs" Link="Ipc\IServiceClient.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\FileVault.UI\Models\VaultInfo.cs" Link="Models\VaultInfo.cs" />
+    <Compile Include="..\..\src\FileVault.UI\Models\FileItemModel.cs" Link="Models\FileItemModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\ViewModels\MainWindowViewModel.cs" Link="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\ViewModels\FolderPanelViewModel.cs" Link="ViewModels\FolderPanelViewModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\ViewModels\ContentAreaViewModel.cs" Link="ViewModels\ContentAreaViewModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\ViewModels\PasswordDialogViewModel.cs" Link="ViewModels\PasswordDialogViewModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\ViewModels\LockScreenViewModel.cs" Link="ViewModels\LockScreenViewModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\ViewModels\FileViewerViewModel.cs" Link="ViewModels\FileViewerViewModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\ViewModels\VideoViewerViewModel.cs" Link="ViewModels\VideoViewerViewModel.cs" />
+    <Compile Include="..\..\src\FileVault.UI\Services\ThumbnailService.cs" Link="Services\ThumbnailService.cs" />
+    <Compile Include="..\..\src\FileVault.UI\Services\VaultMediaInput.cs" Link="Services\VaultMediaInput.cs" />
+    <Compile Include="..\..\src\FileVault.UI\Services\Logger.cs" Link="Services\Logger.cs" />
+  </ItemGroup>
+</Project>

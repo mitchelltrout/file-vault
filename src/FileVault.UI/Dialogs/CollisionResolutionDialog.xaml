@@ -1,0 +1,21 @@
+<Window x:Class="FileVault.UI.Dialogs.CollisionResolutionDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="File Already Exists"
+        Background="#0a0a0a"
+        Foreground="#F0F0F0"
+        WindowStartupLocation="CenterOwner"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize">
+  <StackPanel Margin="20" MinWidth="380">
+    <TextBlock x:Name="FileNameText" Foreground="#cccccc" FontWeight="SemiBold" Margin="0,0,0,8"/>
+    <TextBlock Text="A file with this name already exists in the vault." Foreground="#888888" Margin="0,0,0,12"/>
+    <CheckBox x:Name="ApplyToAllCheck" Content="Apply to all" Foreground="#aaaaaa" Margin="0,0,0,12"/>
+    <StackPanel Orientation="Horizontal">
+      <Button x:Name="ReplaceBtn" Content="Replace" Click="Replace_Click" Padding="12,4" Margin="0,0,8,0"/>
+      <Button x:Name="KeepBothBtn" Content="Keep Both" Click="KeepBoth_Click" Padding="12,4" Margin="0,0,8,0"/>
+      <Button x:Name="SkipBtn" Content="Skip" Click="Skip_Click" Padding="12,4" Margin="0,0,8,0"/>
+      <Button Content="Cancel" Click="Cancel_Click" Padding="12,4"/>
+    </StackPanel>
+  </StackPanel>
+</Window>

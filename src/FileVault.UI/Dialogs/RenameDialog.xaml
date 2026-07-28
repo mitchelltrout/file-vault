@@ -1,0 +1,19 @@
+<Window x:Class="FileVault.UI.Dialogs.RenameDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Rename"
+        Background="#0a0a0a"
+        Foreground="#F0F0F0"
+        WindowStartupLocation="CenterOwner"
+        SizeToContent="Height"
+        Width="400"
+        ResizeMode="NoResize">
+  <StackPanel Margin="20">
+    <TextBlock Text="New name" Foreground="{StaticResource TextDimBrush}" FontSize="11" Margin="0,0,0,4"/>
+    <TextBox x:Name="NameBox" Margin="0,0,0,12"/>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Content="Cancel" Click="Cancel_Click" Padding="16,6" MinWidth="80" Margin="0,0,8,0"/>
+      <Button Content="Rename" Click="OnOk" Padding="16,6" MinWidth="80" IsDefault="True"/>
+    </StackPanel>
+  </StackPanel>
+</Window>

@@ -1,0 +1,33 @@
+﻿<ContentDialog x:ConnectionId='1' x:Class="FileVault.UI.Dialogs.CreateVaultDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:dialogs="using:FileVault.UI.Dialogs"
+               Title="Create Vault"
+               PrimaryButtonText="Create"
+               CloseButtonText="Cancel"
+               DefaultButton="Primary"
+                                            >
+  <StackPanel Spacing="12" MinWidth="400">
+    <StackPanel Spacing="4">
+      <TextBlock Text="Vault File" Foreground="#888888" FontSize="11"/>
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBox x:ConnectionId='5' x:Name="FilePathBox" PlaceholderText="Path to .vault file"
+                 HorizontalAlignment="Stretch" IsReadOnly="True"/>
+        <Button x:ConnectionId='6' Content="Browse…"                     />
+      </StackPanel>
+    </StackPanel>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Display Name" Foreground="#888888" FontSize="11"/>
+      <TextBox x:ConnectionId='4' x:Name="DisplayNameBox" PlaceholderText="My Vault"/>
+    </StackPanel>
+
+    <StackPanel Spacing="4">
+      <TextBlock Text="Password" Foreground="#888888" FontSize="11"/>
+      <PasswordBox x:ConnectionId='3' x:Name="PasswordBox" PlaceholderText="Password"/>
+    </StackPanel>
+
+    <dialogs:PasswordGeneratorControl x:ConnectionId='2' x:Name="Generator"/>
+  </StackPanel>
+</ContentDialog>
+

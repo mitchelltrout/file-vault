@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="FileVault.UI.Views.FolderPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:FileVault.UI.ViewModels">
+  <TreeView x:ConnectionId='2' x:Name="FolderTree" Background="Transparent"
+                                                >
+    <TreeView.ItemTemplate>
+      <DataTemplate                                    >
+        <TreeViewItem x:ConnectionId='4'                                >
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <FontIcon Glyph="&#xED41;" FontSize="12" Foreground="#555555"/>
+            <TextBlock x:ConnectionId='5'                      Foreground="#aaaaaa" FontSize="12"/>
+          </StackPanel>
+        </TreeViewItem>
+      </DataTemplate>
+    </TreeView.ItemTemplate>
+  </TreeView>
+</UserControl>
+

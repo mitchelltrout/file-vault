@@ -1,0 +1,12 @@
+[UnhandledException] Microsoft.UI.Xaml.Markup.XamlParseException: The text associated with this error code could not be found.
+
+Failed to assign to property 'Microsoft.UI.Xaml.Controls.Primitives.ToggleButton.IsChecked'. [Line: 25 Position: 45]
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at WinRT.ExceptionHelpers.ThrowExceptionForHR(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.IApplicationStaticsMethods.LoadComponent(IObjectReference _obj, Object component, Uri resourceLocator, ComponentResourceLocation componentResourceLocation)
+   at Microsoft.UI.Xaml.Application.LoadComponent(Object component, Uri resourceLocator, ComponentResourceLocation componentResourceLocation)
+   at FileVault.UI.MainWindow.InitializeComponent() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\MainWindow.g.i.cs:line 45
+   at FileVault.UI.MainWindow..ctor() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 13
+   at FileVault.UI.App.OnLaunched(LaunchActivatedEventArgs args) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\App.xaml.cs:line 26
+   at Microsoft.UI.Xaml.Application.Microsoft.UI.Xaml.IApplicationOverrides.OnLaunched(LaunchActivatedEventArgs args)
+   at ABI.Microsoft.UI.Xaml.IApplicationOverrides.Do_Abi_OnLaunched_0(IntPtr thisPtr, IntPtr args)

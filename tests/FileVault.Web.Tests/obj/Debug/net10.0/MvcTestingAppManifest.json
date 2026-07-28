@@ -1,0 +1,5 @@
+{
+  "FileVault.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/media\/mitchell\/Data\/Projects\/file-vault\/src\/FileVault.Service",
+  "FileVault.Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/media\/mitchell\/Data\/Projects\/file-vault\/src\/FileVault.Shared",
+  "FileVault.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/media\/mitchell\/Data\/Projects\/file-vault\/src\/FileVault.Web"
+}

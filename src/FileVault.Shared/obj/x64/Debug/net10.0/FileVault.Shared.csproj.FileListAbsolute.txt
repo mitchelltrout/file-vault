@@ -1,0 +1,12 @@
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\bin\x64\Debug\net10.0\FileVault.Shared.deps.json
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\bin\x64\Debug\net10.0\FileVault.Shared.dll
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\bin\x64\Debug\net10.0\FileVault.Shared.pdb
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\FileVault.Shared.csproj.AssemblyReference.cache
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\FileVault.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\FileVault.Shared.AssemblyInfoInputs.cache
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\FileVault.Shared.AssemblyInfo.cs
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\FileVault.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\FileVault.Shared.dll
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\refint\FileVault.Shared.dll
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\FileVault.Shared.pdb
+C:\Users\Mitchell\Projects\file-vault\src\FileVault.Shared\obj\x64\Debug\net10.0\ref\FileVault.Shared.dll

@@ -1,0 +1,167 @@
+[13:56:40.444] AddVaultRequested: opening dialog
+[13:56:59.773] CreateVaultDialog result: True, path: C:\Users\Mitchell\Documents\MyVault4.vault
+[13:56:59.774] CreateVaultAsync: calling service
+[13:57:00.367] CreateVaultAsync: done
+[13:57:01.992] VaultSelected: C:\Users\Mitchell\Documents\MyVault4.vault
+[13:57:02.982] AddFiles_Click
+[13:57:25.558] VaultSelected: C:\Users\Mitchell\Documents\MyVault4.vault
+[13:57:26.109] VaultSelected: C:\Users\Mitchell\Documents\MyVault4.vault
+[13:57:27.036] VaultSelected: C:\Users\Mitchell\Documents\MyVault4.vault
+[13:57:36.884] Delete_Click
+[13:57:38.693] Delete_Click
+[13:57:40.716] Delete_Click
+[13:57:41.900] VaultSelected: C:\Users\Mitchell\Documents\MyVault4.vault
+[19:08:12.971] AddVaultRequested: opening dialog
+[19:08:38.443] CreateVaultDialog result: True, path: C:\Users\Mitchell\Documents\MyVault5.vault
+[19:08:38.443] CreateVaultAsync: calling service
+[19:08:39.286] CreateVaultAsync: done
+[19:08:40.776] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[19:08:43.920] AddFiles_Click
+[19:08:58.475] AddFiles_Click
+[19:09:31.510] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[19:10:29.762] AddVaultRequested: opening dialog
+[19:10:41.749] CreateVaultDialog result: True, path: 
+[19:10:44.903] AddVaultRequested: opening dialog
+[19:10:46.253] CreateVaultDialog result: True, path: 
+[19:18:25.736] CreateVaultRequested: opening dialog
+[19:18:42.241] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[19:18:43.081] AddFiles_Click
+[19:19:47.906] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault.vault
+[19:19:50.739] OpenVaultRequested: opening dialog
+[19:20:01.971] ERROR in OpenVaultRequested: System.InvalidOperationException: The computed authentication tag did not match the input authentication tag.
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 17
+   at FileVault.UI.MainWindow.<.ctor>b__5_3() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 95
+[19:20:11.639] OpenVaultRequested: opening dialog
+[19:20:29.644] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[19:21:13.117] CreateVaultRequested: opening dialog
+[19:22:28.317] VaultSelected: C:\Users\Mitchell\Documents\MyVault2.vault
+[19:22:29.275] AddFiles_Click
+[19:24:45.827] VaultSelected: C:\Users\Mitchell\Documents\MyVault2.vault
+[19:24:49.101] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[19:24:50.236] VaultSelected: C:\Users\Mitchell\Documents\MyVault2.vault
+[19:24:55.360] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault2.vault
+[19:24:58.066] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[22:10:07.830] OpenVaultRequested: opening dialog
+[22:10:32.177] ERROR in OpenVaultRequested: System.InvalidOperationException: The computed authentication tag did not match the input authentication tag.
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 17
+   at FileVault.UI.MainWindow.<.ctor>b__5_3() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 95
+[22:10:36.756] OpenVaultRequested: opening dialog
+[22:11:04.438] ERROR in OpenVaultRequested: System.InvalidOperationException: The computed authentication tag did not match the input authentication tag.
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 17
+   at FileVault.UI.MainWindow.<.ctor>b__5_3() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 95
+[22:11:08.241] OpenVaultRequested: opening dialog
+[22:11:57.034] CreateVaultRequested: opening dialog
+[22:13:06.766] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[22:13:07.806] AddFiles_Click
+[22:13:15.552] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[22:21:50.778] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[22:21:52.137] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[22:21:53.252] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[22:21:58.811] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault3.vault
+[22:22:00.041] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[07:02:06.739] OpenVaultRequested: opening dialog
+[07:02:25.417] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[07:05:00.907] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault3.vault
+[07:05:02.596] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[13:12:52.232] OpenVaultRequested: opening dialog
+[13:13:04.363] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[13:13:16.288] ERROR in FolderItem_Drop: System.InvalidOperationException: Source not found: /Screenshot 2025-12-17 162528.png
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.Ipc.ServiceClient.MoveAsync(String vaultPath, String sourcePath, String destFolder, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 121
+   at FileVault.UI.ViewModels.FolderPanelViewModel.MoveItemIntoAsync(String sourcePath, String destFolder) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\FolderPanelViewModel.cs:line 106
+   at FileVault.UI.Views.FolderPanel.FolderItem_Drop(Object sender, DragEventArgs e) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Views\FolderPanel.xaml.cs:line 123
+[14:38:08.556] AddFiles_Click
+[18:07:15.244] OpenVaultRequested: opening dialog
+[18:07:30.123] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[18:08:10.394] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[12:39:33.528] OpenVaultRequested: opening dialog
+[12:39:43.843] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[12:39:54.157] EditSettingsRequested: C:\Users\Mitchell\Documents\MyVault.vault
+[12:40:08.892] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[12:40:09.870] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[12:40:16.530] OpenVaultRequested: opening dialog
+[12:40:29.281] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[12:41:23.557] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[12:41:25.840] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[12:41:26.335] VaultSelected: C:\Users\Mitchell\Documents\MyVault.vault
+[12:41:53.547] OpenVaultRequested: opening dialog
+[12:42:37.574] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[12:51:27.600] OpenVaultRequested: opening dialog
+[12:51:40.490] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[12:57:34.190] CreateVaultRequested: opening dialog
+[12:58:58.175] ERROR in CreateVaultRequested: System.InvalidOperationException: Unable to read beyond the end of the stream.
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 17
+   at FileVault.UI.ViewModels.MainWindowViewModel.CreateVaultAsync(String filePath, String displayName, String password, Byte[] coverImageBytes) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 50
+   at FileVault.UI.MainWindow.<.ctor>b__5_2() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 80
+[12:59:07.526] OpenVaultRequested: opening dialog
+[12:59:33.631] ERROR in OpenVaultRequested: System.InvalidOperationException: Unable to read beyond the end of the stream.
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 17
+   at FileVault.UI.MainWindow.<.ctor>b__5_3() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 100
+[12:59:47.794] CreateVaultRequested: opening dialog
+[13:00:21.348] OpenVaultRequested: opening dialog
+[13:00:43.254] ERROR in OpenVaultRequested: System.InvalidOperationException: Vault disguise trailer missing or corrupted.
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 17
+   at FileVault.UI.MainWindow.<.ctor>b__5_3() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 100
+[13:00:48.001] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[13:00:57.172] CreateVaultRequested: opening dialog
+[13:01:21.243] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[13:01:22.649] AddFiles_Click
+[13:01:43.966] AddFiles_Click
+[13:05:29.411] AddFiles_Click
+[13:06:07.621] AddFiles_Click
+[13:06:20.850] AddFiles_Click
+[13:07:04.579] Delete_Click
+[13:07:16.569] AddFiles_Click
+[13:07:29.708] AddFiles_Click
+[13:07:39.234] AddFiles_Click
+[13:07:49.398] AddFiles_Click
+[13:08:04.931] AddFiles_Click
+[13:08:14.070] AddFiles_Click
+[13:08:31.730] AddFiles_Click
+[13:08:48.344] AddFiles_Click
+[13:09:00.197] AddFiles_Click
+[13:13:17.527] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault5.vault
+[13:13:20.375] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault3.vault
+[17:10:15.133] OpenVaultRequested: opening dialog
+[17:10:30.408] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[17:24:30.476] OpenVaultRequested: opening dialog
+[17:24:42.189] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[17:30:31.159] OpenVaultRequested: opening dialog
+[17:30:42.821] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[09:28:36.612] OpenVaultRequested: opening dialog
+[09:28:48.012] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[09:29:07.078] Export_Click
+[09:29:26.983] Export_Click
+[09:29:40.936] Export_Click
+[09:30:01.641] Export_Click
+[09:30:14.710] Export_Click
+[23:14:01.560] OpenVaultRequested: opening dialog
+[23:14:18.201] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[23:17:03.166] Export_Click
+[23:17:45.276] Export_Click
+[23:18:46.975] Export_Click
+[23:19:16.153] Export_Click
+[23:19:33.431] Export_Click
+[23:19:56.109] Export_Click
+[23:20:39.013] Export_Click
+[23:23:49.156] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault5.vault
+[08:24:37.269] OpenVaultRequested: opening dialog
+[08:24:54.664] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[08:46:21.039] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault5.vault
+[22:31:51.805] OpenVaultRequested: opening dialog
+[22:32:01.666] ERROR in OpenVaultRequested: System.InvalidOperationException: The computed authentication tag did not match the input authentication tag.
+   at FileVault.UI.Ipc.ServiceClient.SendReceiveAsync[TReq,T](MessageType type, TReq request, CancellationToken ct) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Ipc\ServiceClient.cs:line 54
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 17
+   at FileVault.UI.MainWindow.<.ctor>b__5_3() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 100
+[22:32:05.639] OpenVaultRequested: opening dialog
+[22:32:34.372] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[22:42:35.872] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault5.vault
+[19:04:24.560] OpenVaultRequested: opening dialog
+[19:04:36.514] VaultSelected: C:\Users\Mitchell\Documents\MyVault5.vault
+[19:41:09.012] LockVaultRequested: C:\Users\Mitchell\Documents\MyVault5.vault

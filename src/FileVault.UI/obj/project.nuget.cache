@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "vpj7dihhKxw=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Mitchell\\Projects\\file-vault\\src\\FileVault.UI\\FileVault.UI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Mitchell\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512",
+    "C:\\Users\\Mitchell\\.nuget\\packages\\libvlcsharp\\3.9.3\\libvlcsharp.3.9.3.nupkg.sha512",
+    "C:\\Users\\Mitchell\\.nuget\\packages\\libvlcsharp.wpf\\3.9.3\\libvlcsharp.wpf.3.9.3.nupkg.sha512",
+    "C:\\Users\\Mitchell\\.nuget\\packages\\messagepack\\3.1.4\\messagepack.3.1.4.nupkg.sha512",
+    "C:\\Users\\Mitchell\\.nuget\\packages\\messagepack.annotations\\3.1.4\\messagepack.annotations.3.1.4.nupkg.sha512",
+    "C:\\Users\\Mitchell\\.nuget\\packages\\messagepackanalyzer\\3.1.4\\messagepackanalyzer.3.1.4.nupkg.sha512",
+    "C:\\Users\\Mitchell\\.nuget\\packages\\microsoft.net.stringtools\\17.11.4\\microsoft.net.stringtools.17.11.4.nupkg.sha512",
+    "C:\\Users\\Mitchell\\.nuget\\packages\\videolan.libvlc.windows\\3.0.21\\videolan.libvlc.windows.3.0.21.nupkg.sha512"
+  ],
+  "logs": []
+}

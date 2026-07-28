@@ -1,0 +1,92 @@
+[07:14:34.133] AddVaultRequested: opening dialog
+[07:16:02.365] AddVaultRequested: opening dialog
+[07:16:03.724] Browse_Click: starting FileSavePicker
+[07:16:03.728] Browse_Click: hwnd=1380332
+[07:16:03.768] Browse_Click: showing picker
+[07:16:07.602] Browse_Click: picker returned C:\Users\Mitchell\Documents\MyVault.vault
+[07:16:07.639] ERROR in Browse_Click: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Controls.ITextBoxMethods.set_Text(IObjectReference _obj, String value)
+   at Microsoft.UI.Xaml.Controls.TextBox.set_Text(String value)
+   at FileVault.UI.Dialogs.CreateVaultDialog.Browse_Click(Object sender, RoutedEventArgs e) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Dialogs\CreateVaultDialog.xaml.cs:line 44
+[07:16:26.622] CreateVaultDialog result: Primary, path: 
+[07:18:00.236] AddVaultRequested: opening dialog
+[07:18:01.657] Browse_Click: starting FileSavePicker
+[07:18:01.660] Browse_Click: hwnd=2756728
+[07:18:01.693] Browse_Click: showing picker
+[07:18:07.838] Browse_Click: picker returned C:\Users\Mitchell\Documents\MyVault1.vault
+[07:18:19.489] CreateVaultDialog result: Primary, path: C:\Users\Mitchell\Documents\MyVault1.vault
+[07:18:20.601] ERROR in AddVaultRequested: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Interop.WinRTNotifyCollectionChangedEventArgsRuntimeClassFactory.CreateInstanceWithAllParameters(NotifyCollectionChangedAction action, IList newItems, IList oldItems, Int32 newIndex, Int32 oldIndex)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventArgs.CreateMarshaler2(NotifyCollectionChangedEventArgs value)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventHandler.NativeDelegateWrapper.Invoke(Object sender, NotifyCollectionChangedEventArgs e)
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.MainWindow.<.ctor>b__4_1(Object _, NotifyCollectionChangedEventArgs _) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 46
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.ViewModels.MainWindowViewModel.UnlockVaultAsync(String filePath, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 32
+   at FileVault.UI.ViewModels.MainWindowViewModel.CreateVaultAsync(String filePath, String displayName, String password) in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\MainWindowViewModel.cs:line 49
+   at FileVault.UI.MainWindow.<.ctor>b__4_2() in C:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 65
+[07:20:49.815] AddVaultRequested: opening dialog
+[07:20:51.115] Browse_Click: starting FileSavePicker
+[07:20:51.117] Browse_Click: hwnd=528146
+[07:20:51.165] Browse_Click: showing picker
+[07:20:58.010] Browse_Click: picker returned C:\Users\Mitchell\Documents\MyVault3.vault
+[07:21:07.207] CreateVaultDialog result: Primary, path: C:\Users\Mitchell\Documents\MyVault3.vault
+[07:21:07.207] CreateVaultAsync: calling service
+[07:21:07.745] CreateVaultAsync: done
+[07:21:11.510] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[07:21:11.643] ERROR in VaultSelected: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Interop.WinRTNotifyCollectionChangedEventArgsRuntimeClassFactory.CreateInstanceWithAllParameters(NotifyCollectionChangedAction action, IList newItems, IList oldItems, Int32 newIndex, Int32 oldIndex)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventArgs.CreateMarshaler2(NotifyCollectionChangedEventArgs value)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventHandler.NativeDelegateWrapper.Invoke(Object sender, NotifyCollectionChangedEventArgs e)
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.ViewModels.FolderPanelViewModel.LoadAsync(String path) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\FolderPanelViewModel.cs:line 25
+   at FileVault.UI.MainWindow.<.ctor>b__5_0(VaultInfo vault) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 41
+[07:21:14.365] AddFiles_Click
+[07:21:28.441] ERROR in AddFiles_Click: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Interop.WinRTNotifyCollectionChangedEventArgsRuntimeClassFactory.CreateInstanceWithAllParameters(NotifyCollectionChangedAction action, IList newItems, IList oldItems, Int32 newIndex, Int32 oldIndex)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventArgs.CreateMarshaler2(NotifyCollectionChangedEventArgs value)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventHandler.NativeDelegateWrapper.Invoke(Object sender, NotifyCollectionChangedEventArgs e)
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.ViewModels.ContentAreaViewModel.LoadFolderAsync(String folderPath) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\ContentAreaViewModel.cs:line 24
+   at FileVault.UI.ViewModels.ContentAreaViewModel.ImportFilesAsync(IEnumerable`1 sourcePaths, String collisionBehavior) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\ContentAreaViewModel.cs:line 52
+   at FileVault.UI.Views.ContentArea.AddFiles_Click(Object sender, RoutedEventArgs e) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\Views\ContentArea.xaml.cs:line 90
+[10:30:37.529] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[10:30:37.534] ERROR in VaultSelected: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Interop.WinRTNotifyCollectionChangedEventArgsRuntimeClassFactory.CreateInstanceWithAllParameters(NotifyCollectionChangedAction action, IList newItems, IList oldItems, Int32 newIndex, Int32 oldIndex)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventArgs.CreateMarshaler2(NotifyCollectionChangedEventArgs value)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventHandler.NativeDelegateWrapper.Invoke(Object sender, NotifyCollectionChangedEventArgs e)
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.ViewModels.FolderPanelViewModel.LoadAsync(String path) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\FolderPanelViewModel.cs:line 25
+   at FileVault.UI.MainWindow.<.ctor>b__5_0(VaultInfo vault) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 41
+[10:30:39.250] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[10:30:39.251] ERROR in VaultSelected: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Interop.WinRTNotifyCollectionChangedEventArgsRuntimeClassFactory.CreateInstanceWithAllParameters(NotifyCollectionChangedAction action, IList newItems, IList oldItems, Int32 newIndex, Int32 oldIndex)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventArgs.CreateMarshaler2(NotifyCollectionChangedEventArgs value)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventHandler.NativeDelegateWrapper.Invoke(Object sender, NotifyCollectionChangedEventArgs e)
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.ViewModels.FolderPanelViewModel.LoadAsync(String path) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\FolderPanelViewModel.cs:line 25
+   at FileVault.UI.MainWindow.<.ctor>b__5_0(VaultInfo vault) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 41
+[10:30:42.502] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[10:30:42.504] ERROR in VaultSelected: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Interop.WinRTNotifyCollectionChangedEventArgsRuntimeClassFactory.CreateInstanceWithAllParameters(NotifyCollectionChangedAction action, IList newItems, IList oldItems, Int32 newIndex, Int32 oldIndex)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventArgs.CreateMarshaler2(NotifyCollectionChangedEventArgs value)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventHandler.NativeDelegateWrapper.Invoke(Object sender, NotifyCollectionChangedEventArgs e)
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.ViewModels.FolderPanelViewModel.LoadAsync(String path) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\FolderPanelViewModel.cs:line 25
+   at FileVault.UI.MainWindow.<.ctor>b__5_0(VaultInfo vault) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 41
+[10:30:42.676] VaultSelected: C:\Users\Mitchell\Documents\MyVault3.vault
+[10:30:42.678] ERROR in VaultSelected: System.Runtime.InteropServices.COMException (0x8001010E)
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.Interop.WinRTNotifyCollectionChangedEventArgsRuntimeClassFactory.CreateInstanceWithAllParameters(NotifyCollectionChangedAction action, IList newItems, IList oldItems, Int32 newIndex, Int32 oldIndex)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventArgs.CreateMarshaler2(NotifyCollectionChangedEventArgs value)
+   at ABI.System.Collections.Specialized.NotifyCollectionChangedEventHandler.NativeDelegateWrapper.Invoke(Object sender, NotifyCollectionChangedEventArgs e)
+   at System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+   at FileVault.UI.ViewModels.FolderPanelViewModel.LoadAsync(String path) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\ViewModels\FolderPanelViewModel.cs:line 25
+   at FileVault.UI.MainWindow.<.ctor>b__5_0(VaultInfo vault) in c:\Users\Mitchell\Projects\file-vault\src\FileVault.UI\MainWindow.xaml.cs:line 41
