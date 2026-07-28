@@ -7,3 +7,6 @@ docs/superpowers/plans/
 node_modules/
 .venv/
 .env
+
+.env.*
+!.env.example
